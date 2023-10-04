@@ -33,7 +33,7 @@ spec:
     spec:
       containers:
       - name: nginx-container
-        image: amward03/duo-deploy-nginx:v1
+        image: amward03/duo-deploy-nginx:latest
         imagePullPolicy: Always
         ports: 
         - containerPort: 80
