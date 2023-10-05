@@ -11,9 +11,6 @@ pipeline {
         stage('building images') {
             steps {
                 sh '''
-                cd nginx 
-                docker build -t nginx:latest . 
-                cd .. 
                 docker build -t amward03/duo-deploy-flask:latest . 
                 '''
             }
@@ -22,7 +19,6 @@ pipeline {
             steps {
                 sh '''
                 docker push amward03/duo-deploy-flask:latest
-                docker push nginx:latest 
                 '''
             }
         }
