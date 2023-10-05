@@ -22,5 +22,12 @@ pipeline {
                 '''
             }
         }
+        stage('rolling update') {
+            steps {
+                sh '''
+                kubectl rollout restart deployment flask-deployment
+                '''
+            }
+        }
     }
 }
