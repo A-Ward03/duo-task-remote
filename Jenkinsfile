@@ -29,5 +29,12 @@ pipeline {
                 '''
             }
         }
+        stage('retrieve IP') {
+            steps {
+                sh '''
+                kubectl get all
+                '''
+            }
+        }
     }
 }
