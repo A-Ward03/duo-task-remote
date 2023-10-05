@@ -11,7 +11,7 @@ pipeline {
         stage('building images') {
             steps {
                 sh '''
-                docker build -t amward03/duo-deploy-flask:latest . 
+                docker build -t amward03/duo-deploy-flask:latest -t amward03/duo-deploy-flask:v$BUILD_NUMBER . 
                 '''
             }
         }
@@ -19,20 +19,22 @@ pipeline {
             steps {
                 sh '''
                 docker push amward03/duo-deploy-flask:latest
+                docker push amward03/duo-deploy-flask:v$BUILD_NUMBER
                 '''
             }
         }
-        stage('rolling update') {
+        stage('deploy') {
             steps {
                 sh '''
-                kubectl rollout restart deployment flask-deployment
+                kubectl apply -f ./k8s-deployments -n prod
+                kubectl rollout restart deployment flask-deployment -n prod
                 '''
             }
         }
-        stage('retrieve IP') {
+        stage('clean-up') {
             steps {
                 sh '''
-                kubectl get all
+                docker system prune -a --force 
                 '''
             }
         }
